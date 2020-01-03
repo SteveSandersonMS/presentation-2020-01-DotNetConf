@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <RestoreAdditionalProjectSources>
+            https://grpc.jfrog.io/grpc/api/nuget/v3/grpc-nuget-dev;
+            $(MSBuildThisFileDirectory)packages;
+        </RestoreAdditionalProjectSources>
+    </PropertyGroup>
+</Project>
