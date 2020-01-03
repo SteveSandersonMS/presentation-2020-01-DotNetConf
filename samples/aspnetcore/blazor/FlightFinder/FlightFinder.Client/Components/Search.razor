@@ -3,7 +3,7 @@
     <div class="row py-1">
         <!-- From airport -->
         <div class="col pr-0">
-            <div class="form-control d-flex">
+            <div class="form-control d-flex search-from-airport">
                 <div><i>✈</i>&nbsp;&nbsp;From:</div>
                 <input list="airports" placeholder="..." @bind="criteria.FromAirport" />
             </div>
@@ -12,7 +12,7 @@
 
         <!-- To airport -->
         <div class="col pl-0">
-            <div class="form-control d-flex">
+            <div class="form-control d-flex search-to-airport">
                 <div><i>✈</i>&nbsp;&nbsp;To:</div>
                 <input list="airports" placeholder="..." @bind="criteria.ToAirport" />
             </div>
@@ -23,7 +23,7 @@
     <div class="row py-1">
         <!-- Depart date -->
         <div class="col pr-0">
-            <div class="form-control d-flex">
+            <div class="form-control d-flex search-outbound-date">
                 <div><i>🗓</i>&nbsp;&nbsp;Depart:</div>
                 <input type="date" @bind="criteria.OutboundDate" @bind:format="yyyy-MM-dd" />
             </div>
@@ -32,7 +32,7 @@
 
         <!-- Return date -->
         <div class="col pl-0">
-            <div class="form-control d-flex">
+            <div class="form-control d-flex search-return-date">
                 <div><i>🗓</i>&nbsp;&nbsp;Return:</div>
                 <input type="date" @bind="criteria.ReturnDate" @bind:format="yyyy-MM-dd" />
             </div>
@@ -40,7 +40,7 @@
     </div>
 
     <!-- Class / search -->
-    <div class="row py-1 d-flex px-3">
+    <div class="row py-1 d-flex px-3 search-ticket-class">
         <div>
             <select class="custom-select" @bind="criteria.TicketClass">
                 <option value=@TicketClass.Economy>Economy</option>
@@ -50,7 +50,7 @@
             </select>
         </div>
         <div class="ml-auto">
-            <button @onclick="() => OnSearch.InvokeAsync(criteria)" type="button" class="btn btn-danger px-5">
+            <button @onclick="() => OnSearch.InvokeAsync(criteria)" type="button" class="btn btn-danger px-5 search-submit">
                 Search ➝
             </button>
         </div>
