@@ -8,7 +8,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightFinder.Client", "Flig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightFinder.Shared", "FlightFinder.Shared\FlightFinder.Shared.csproj", "{39613A2D-88E6-452E-9396-11EE410BAB78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightFinder.Client.Test", "FlightFinder.Client.Test\FlightFinder.Client.Test.csproj", "{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightFinder.Client.Test", "FlightFinder.Client.Test\FlightFinder.Client.Test.csproj", "{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightFinder.Desktop", "FlightFinder.Desktop\FlightFinder.Desktop.csproj", "{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,18 @@ Global
 		{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}.Release|x64.Build.0 = Release|Any CPU
 		{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}.Release|x86.ActiveCfg = Release|Any CPU
 		{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}.Release|x86.Build.0 = Release|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Debug|x64.Build.0 = Debug|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Release|x64.ActiveCfg = Release|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Release|x64.Build.0 = Release|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6AD6D1E-37B7-46A6-9DF6-7A8D896896DB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
