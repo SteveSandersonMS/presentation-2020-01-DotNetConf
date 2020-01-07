@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
+using System.Globalization;
+using System.Threading;
 
 namespace FlightFinder.Client
 {
@@ -6,6 +8,7 @@ namespace FlightFinder.Client
     {
         public static void Main(string[] args)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -25,7 +25,7 @@ namespace FlightFinder.Services
             var reply = new SearchReply();
             reply.Itineraries.AddRange(Enumerable.Range(0, rng.Next(1, 5)).Select(_ => new Itinerary
             {
-                Price = rng.Next(100, 2000),
+                Price = rng.Next(10000, 200000) / 100m,
                 Outbound = new FlightSegment
                 {
                     Airline = RandomAirline(),

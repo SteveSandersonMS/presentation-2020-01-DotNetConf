@@ -52,8 +52,8 @@ namespace FlightFinder.Client.Test
             // Arrange
             var app = host.AddComponent<Main>();
             var reply = new SearchReply();
-            reply.Itineraries.Add(TestItinerary.Create("My Airline", 123.45m));
-            reply.Itineraries.Add(TestItinerary.Create("Another Airline", 456.78m));
+            reply.Itineraries.Add(TestItinerary.Create("My Airline", 123));
+            reply.Itineraries.Add(TestItinerary.Create("Another Airline", 456m));
 
             // Act
             app.Find(".search-submit").Click();
@@ -69,7 +69,7 @@ namespace FlightFinder.Client.Test
                 },
                 item =>
                 {
-                    Assert.Equal("$457", item.QuerySelector(".price h3").InnerText);
+                    Assert.Equal("$456", item.QuerySelector(".price h3").InnerText);
                     Assert.Equal("Another Airline", item.QuerySelector(".airline span").InnerText);
                 });
         }
