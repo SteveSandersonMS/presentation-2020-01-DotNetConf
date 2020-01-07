@@ -53,15 +53,15 @@ namespace FlightFinder.Client.Test
             var app = host.AddComponent<Main>();
 
             // Assert: Before clicking search, we're not loading
-            Assert.Empty(app.FindAll("#results-area .greyout"));
+            Assert.Null(app.Find("#results-area.greyout"));
 
             // Act/Assert: After clicking search, we are loading
             app.Find(".search-submit").Click();
-            Assert.NotEmpty(app.FindAll("#results-area .greyout"));
+            Assert.NotNull(app.Find("#results-area.greyout"));
 
             // Act/Assert: When the response arrives, we are no longer loading
             host.WaitForNextRender(() => flightDataClient.SearchReply.SetResult(new SearchReply()));
-            Assert.Empty(app.FindAll("#results-area .greyout"));
+            Assert.Null(app.Find("#results-area.greyout"));
         }
 
         [Fact]
