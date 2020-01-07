@@ -47,24 +47,6 @@ namespace FlightFinder.Client.Test
         }
 
         [Fact]
-        public void WhileSearchIsPending_ShowsLoadingState()
-        {
-            // Arrange
-            var app = host.AddComponent<Main>();
-
-            // Assert: Before clicking search, we're not loading
-            Assert.Null(app.Find("#results-area.greyout"));
-
-            // Act/Assert: After clicking search, we are loading
-            app.Find(".search-submit").Click();
-            Assert.NotNull(app.Find("#results-area.greyout"));
-
-            // Act/Assert: When the response arrives, we are no longer loading
-            host.WaitForNextRender(() => flightDataClient.SearchReply.SetResult(new SearchReply()));
-            Assert.Null(app.Find("#results-area.greyout"));
-        }
-
-        [Fact]
         public void ShowsSearchResults()
         {
             // Arrange
