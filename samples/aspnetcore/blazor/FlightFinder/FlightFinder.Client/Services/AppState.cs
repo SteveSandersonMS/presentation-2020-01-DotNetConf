@@ -20,11 +20,11 @@ namespace FlightFinder.Client.Services
         // Could have whatever granularity you want (more events, hierarchy...)
         public event Action OnChange;
 
-        // Receive 'flightDataClient' instance from DI
-        private readonly FlightData.FlightDataClient flightDataClient;
-        public AppState(FlightData.FlightDataClient flightDataClientInstance)
+        // Receive 'http' instance from DI
+        private readonly HttpClient http;
+        public AppState(HttpClient httpInstance)
         {
-            flightDataClient = flightDataClientInstance;
+            http = httpInstance;
         }
 
         public async Task Search(SearchCriteria criteria)
@@ -32,7 +32,7 @@ namespace FlightFinder.Client.Services
             SearchInProgress = true;
             NotifyStateChanged();
 
-            SearchResults = (await flightDataClient.SearchAsync(criteria)).Itineraries;
+            SearchResults = await http.PostJsonAsync<Itinerary[]>("/api/flightsearch", criteria);
             SearchInProgress = false;
             NotifyStateChanged();
         }

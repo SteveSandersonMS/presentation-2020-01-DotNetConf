@@ -1,5 +1,4 @@
-﻿@inject FlightData.FlightDataClient FlightDataClient
-@using Google.Protobuf.WellKnownTypes
+﻿@inject HttpClient Http
 
 <datalist id="airports">
     @foreach (var airport in airports)
@@ -14,6 +13,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        airports = (await FlightDataClient.AirportsAsync(new Empty())).Airports;
+        airports = await Http.GetJsonAsync<Airport[]>("api/airports");
     }
 }
