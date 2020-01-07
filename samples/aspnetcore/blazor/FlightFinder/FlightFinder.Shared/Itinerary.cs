@@ -1,17 +1,15 @@
 ﻿namespace FlightFinder.Shared
 {
-    public partial class Itinerary
+    public class Itinerary
     {
-        public decimal Price
-        {
-            get => GrpcPrice.ToDecimal();
-            set { GrpcPrice = GrpcDecimal.FromDecimal(value); }
-        }
+        public FlightSegment Outbound { get; set; }
+        public FlightSegment Return { get; set; }
+        public decimal Price { get; set; }
 
         public double TotalDurationHours
             => Outbound.DurationHours + Return.DurationHours;
 
-        public string AirlineName
-            => (Outbound.Airline == Return.Airline) ? Outbound.Airline : "Multiple airlines";
+        public string AirlineName => 
+            (Outbound.Airline == Return.Airline) ? Outbound.Airline : "Multiple airlines";
     }
 }
