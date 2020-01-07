@@ -104,12 +104,27 @@ body {
     }
 
     #search-area button {
-        box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.4);
         background-color: white;
         border: none;
         font-weight: 600;
         color: black;
+        transition: background-color 1s;
+        box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.3);
     }
+
+        #search-area button:hover {
+            box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        #search-area button:active {
+            transition: background-color 0s;
+            background-color: #cb60b3;
+            outline: none;
+        }
+
+        #search-area button:focus {
+            box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.6);
+        }
 
 #results-area {
     flex: auto;
