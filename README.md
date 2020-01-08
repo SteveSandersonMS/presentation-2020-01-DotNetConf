@@ -11,17 +11,21 @@ The relevant branches are:
 ## Flow
 
   - [4] Look at flightfinder app
-        - See functionality
+        - See functionality in browser
+        - See project structure in VS (server/client/shared)
         - See Main.razor
-        - See JSON-over-HTTP requests on wire
+        - See shared model types
   - [8] gRPC
-        - What people need to understand about gRPC:
-          - it's an alternate kind of API endpoint, using lang-independent descriptor and protobuf messages
-          - pros/cons vs json-over-http: more strongly typed, more compact, no REST arguments. It's just RPC.
-          - normally requires HTTP2 (and hence not callable from JS/WebAssembly) but gRPC-Web works over HTTP1.1
         - See FlightFinder doing traditional JSON
           - Problem 1: verbose on the wire
           - Problem 2: if server and client don't agree about URLs (etc) then it will fail -- versioning
+        - It's good that server & client share model types, but there's still nothing to guarantee correct
+          URLs, HTTP methods
+        - Is there a more modern, streamlined alternative with stronger type checking? Yes there are several,
+          one of which we've focused on a lot is gRPC
+          - it's an alternate kind of API endpoint, using lang-independent descriptor and protobuf messages
+          - pros/cons vs json-over-http: more strongly typed, more compact, no REST arguments. It's just RPC.
+          - normally requires HTTP2 (and hence not callable from JS/WebAssembly) but gRPC-Web works over HTTP1.1
         - Switch to version that has .proto in Shared and implements service in .Server
           - `git checkout grpc`
           - See .proto file
