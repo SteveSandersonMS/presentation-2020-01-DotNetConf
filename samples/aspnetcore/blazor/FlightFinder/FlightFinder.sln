@@ -10,6 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightFinder.Shared", "Flig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightFinder.Client.Test", "FlightFinder.Client.Test\FlightFinder.Client.Test.csproj", "{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{61367AF0-22DA-4408-956B-F1F0B844B1F9}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Snippets.demosnippets = ..\..\..\..\Snippets.demosnippets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
