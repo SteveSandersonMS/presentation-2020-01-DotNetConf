@@ -1,4 +1,4 @@
-﻿@inject HttpClient Http
+﻿@inject FlightData.FlightDataClient FlightDataClient
 
 <datalist id="airports">
     @foreach (var airport in airports)
@@ -13,6 +13,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        airports = await Http.GetJsonAsync<Airport[]>("api/airports");
+        airports = (await FlightDataClient.AirportsAsync(new Empty())).Airports;
     }
 }

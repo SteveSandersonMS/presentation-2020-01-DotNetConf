@@ -1,15 +1,20 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 
 namespace FlightFinder.Shared
 {
-    public class FlightSegment
+    public partial class FlightSegment
     {
-        public string Airline { get; set; }
-        public string FromAirportCode { get; set; }
-        public string ToAirportCode { get; set; }
-        public DateTime DepartureTime { get; set; }
-        public DateTime ReturnTime { get; set; }
-        public double DurationHours { get; set; }
-        public TicketClass TicketClass { get; set; }
+        public DateTime DepartureTime
+        {
+            get => DepartureTimestamp.ToDateTime();
+            set { DepartureTimestamp = Timestamp.FromDateTime(value.ToUniversalTime()); }
+        }
+
+        public DateTime ReturnTime
+        {
+            get => ReturnTimestamp.ToDateTime();
+            set { ReturnTimestamp = Timestamp.FromDateTime(value.ToUniversalTime()); }
+        }
     }
 }

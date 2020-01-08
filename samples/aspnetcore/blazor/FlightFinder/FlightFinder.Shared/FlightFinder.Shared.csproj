@@ -13,4 +13,8 @@
     <PackageReference Include="Grpc.Net.Client" Version="2.27.0-dev" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Protobuf Include="Protos\FlightData.proto" />
+  </ItemGroup>
+
 </Project>

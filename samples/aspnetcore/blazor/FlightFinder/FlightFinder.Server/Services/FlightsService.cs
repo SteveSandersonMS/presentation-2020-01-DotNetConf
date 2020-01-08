@@ -1,21 +1,29 @@
-﻿using FlightFinder.Shared;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FlightFinder.Server;
+using FlightFinder.Shared;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 
-namespace FlightFinder.Server.Controllers
+namespace FlightFinder.Services
 {
-    [Route("api/[controller]")]
-    public class FlightSearchController
+    public class FlightDataService : FlightData.FlightDataBase
     {
-        public async Task<IEnumerable<Itinerary>> Search([FromBody] SearchCriteria criteria)
+        public override Task<AirportsReply> Airports(Empty _, ServerCallContext context)
+        {
+            var reply = new AirportsReply();
+            reply.Airports.AddRange(SampleData.Airports);
+            return Task.FromResult(reply);
+        }
+
+        public override async Task<SearchReply> Search(SearchCriteria criteria, ServerCallContext context)
         {
             await Task.Delay(500); // Gotta look busy...
 
             var rng = new Random();
-            return Enumerable.Range(0, rng.Next(1, 5)).Select(_ => new Itinerary
+            var reply = new SearchReply();
+            reply.Itineraries.AddRange(Enumerable.Range(0, rng.Next(1, 5)).Select(_ => new Itinerary
             {
                 Price = rng.Next(10000, 200000) / 100m,
                 Outbound = new FlightSegment
@@ -38,7 +46,9 @@ namespace FlightFinder.Server.Controllers
                     DurationHours = 2 + rng.Next(10),
                     TicketClass = criteria.TicketClass
                 },
-            });
+            }));
+
+            return reply;
         }
 
         private string RandomAirline()
