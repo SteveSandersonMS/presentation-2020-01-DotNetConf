@@ -1,15 +1,294 @@
-﻿
-# Comments
+﻿TAB: gRPC
 
-TAB: Tab name
+- services.AddSingleton call for FlightDataClient
 
-- Step 3
+services.AddSingleton(services =>
+            {
+                // Create a gRPC-Web channel pointing to the backend server
+                var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler()));
+                var baseUri = services.GetRequiredService<NavigationManager>().BaseUri;
+                var channel = GrpcChannel.ForAddress(baseUri, new GrpcChannelOptions { HttpClient = httpClient });
+                
+                // Now we can instantiate gRPC clients for this channel
+                return new FlightData.FlightDataClient(channel);
+            });
 
-// snippet 1 line 1
-// snippet 1 line 2
+- @inject FlightDataClient
 
+@inject FlightData.FlightDataClient FlightDataClient
 
-- Step 2
+- airports = ... call gRPC
 
-// snippet 2 line 1
-// snippet 2 line 2
+airports = (await FlightDataClient.AirportsAsync(new Empty())).Airports;
+
+- AppState ctor & field to receive FlightDataClient
+
+// Receive 'flightDataClient' instance from DI
+        private readonly FlightData.FlightDataClient flightDataClient;
+        public AppState(FlightData.FlightDataClient flightDataClient)
+        {
+            this.flightDataClient = flightDataClient;
+        }
+
+- SearchResults = ... call gRPC
+
+SearchResults = (await flightDataClient.SearchAsync(criteria)).Itineraries;
+
+- .proto: rpc AddShortlistItem ...
+
+rpc AddShortlistItem (Itinerary) returns (google.protobuf.Empty);
+
+- Service: AddShortlistItem body
+
+// Could store in DB
+            Console.WriteLine($"[Server] Adding to shortlist: {itinerary.Price}, {itinerary.AirlineName}");
+
+            // Return nothing
+            return Task.FromResult(new Empty());
+
+- AppState: await flightDataClient.AddShortlistItemAsync(itinerary);
+
+await flightDataClient.AddShortlistItemAsync(itinerary);
+
+TAB: Unit testing
+
+- Initial ShortlistTests class
+
+public class ShortlistTests
+    {
+        [Fact]
+        public void CanDisplayEmpty()
+        {
+            // TODO
+        }
+    }
+
+- private readonly TestHost host = ...
+
+private readonly TestHost host = new TestHost();
+
+- var component = host.AddComponent<Shortlist>();
+
+var component = host.AddComponent<Shortlist>();
+
+- Initial assertions
+
+Assert.Equal("Shortlist (0)", component.Find("h2").InnerText);
+            Assert.Empty(component.FindAll("ul"));
+
+- Empty RoundsPricesToNearestUnit test
+
+[Fact]
+        public void RoundsPricesToNearestUnit()
+        {
+        }
+
+- var component = (with some data)
+
+// Create an component that receives some data
+            var component = host.AddComponent<Shortlist>(new Dictionary<string, object>
+            {
+                [nameof(Shortlist.Itineraries)] = new List<Itinerary>
+                {
+                    TestItinerary.Create("Fake Airways", price: 123.45m), // Round down
+                    TestItinerary.Create("Test Airways", price: 456.78m), // Round up
+                }
+            });
+
+- Assertions for price rounding
+
+// Assert: Prices are displayed correctly
+            Assert.Equal("Shortlist (2)", component.Find("h2").InnerText);
+            Assert.Collection(component.FindAll("ul"),
+                item =>
+                {
+                    Assert.Equal("Fake Airways", item.QuerySelector(".airline").InnerText);
+                    Assert.Equal("$123", item.QuerySelector(".price").InnerText);
+                },
+                item =>
+                {
+                    Assert.Equal("Test Airways", item.QuerySelector(".airline").InnerText);
+                    Assert.Equal("$457", item.QuerySelector(".price").InnerText);
+                });
+
+- @item.Price.ToString("c0")
+
+@item.Price.ToString("c0")
+
+- Beginning SearchFlowTests class
+
+public class SearchFlowTests
+    {
+        private readonly TestHost host = new TestHost();
+        private readonly TestGrpcClient<FlightData.FlightDataClient> flightDataClient = new TestGrpcClient<FlightData.FlightDataClient>();
+
+        public SearchFlowTests()
+        {
+            host.AddService(flightDataClient.Client);
+            host.AddService(new AppState(flightDataClient.Client));
+        }
+
+        // TODO: Test that the server receives search criteria from the UI
+
+        // TODO: Test that the UI displays the search results
+    }
+
+- Beginning SendsSearchCriteria test
+
+[Fact]
+        public void SendsSearchCriteria()
+        {
+            // Arrange
+            var app = host.AddComponent<Main>();
+            app.Find(".search-from-airport input").Change("JFK");
+            app.Find(".search-to-airport input").Change("SYD");
+            app.Find(".search-outbound-date input").Change("2020-01-02");
+            app.Find(".search-return-date input").Change("2020-03-08");
+            app.Find(".search-ticket-class select").Change(TicketClass.First.ToString());
+            Assert.Empty(flightDataClient.Calls<SearchCriteria>());
+
+            // TODO: Now click 'search'
+        }
+
+- Click search and assert
+
+// Act
+            app.Find(".search-submit").Click();
+            var call = flightDataClient.Calls<SearchCriteria>().Single();
+            var searchCriteria = call.Request;
+
+            // Assert
+            Assert.Equal("JFK", searchCriteria.FromAirport);
+            Assert.Equal("SYD", searchCriteria.ToAirport);
+            Assert.Equal(new DateTime(2020, 1, 2), searchCriteria.OutboundDate);
+            Assert.Equal(new DateTime(2020, 3, 8), searchCriteria.ReturnDate);
+            Assert.Equal(TicketClass.First, searchCriteria.TicketClass);
+
+- Whole ShowsSearchResults test
+
+[Fact]
+        public void ShowsSearchResults()
+        {
+            // Arrange: Prepare a reply from server
+            var app = host.AddComponent<Main>();
+            var reply = new SearchReply();
+            reply.Itineraries.Add(TestItinerary.Create("My Airline", 123));
+            reply.Itineraries.Add(TestItinerary.Create("Another Airline", 456m));
+
+            // Act: Click 'search'; receive reply
+            app.Find(".search-submit").Click();
+            host.WaitForNextRender(() => flightDataClient.SetResponse(reply));
+
+            // Assert: Verify UI displays the data
+            Assert.Equal("2 results", app.Find("#results-area .title h2").InnerText);
+            Assert.Collection(app.FindAll("#results-area .search-result"),
+                item =>
+                {
+                    Assert.Equal("$123", item.QuerySelector(".price h3").InnerText);
+                    Assert.Equal("My Airline", item.QuerySelector(".airline span").InnerText);
+                },
+                item =>
+                {
+                    Assert.Equal("$456", item.QuerySelector(".price h3").InnerText);
+                    Assert.Equal("Another Airline", item.QuerySelector(".airline span").InnerText);
+                });
+        }
+
+- Empty GreysOutSearchResultsWhileLoading test
+
+[Fact]
+        public void GreysOutSearchResultsWhileLoading()
+        {
+
+        }
+
+- Verify that before searching we're not loading
+
+var app = host.AddComponent<Main>();
+
+            // Assert: Before clicking search, we're not loading
+            Assert.Null(app.Find("#results-area.greyout"));
+
+- Verify that while searching we are loading
+
+// Act/Assert: After clicking search, we are loading
+            app.Find(".search-submit").Click();
+            Assert.NotNull(app.Find("#results-area.greyout"));
+
+            // Act/Assert: When the response arrives, we are no longer loading
+            host.WaitForNextRender(() => flightDataClient.SetResponse(new SearchReply()));
+            Assert.Null(app.Find("#results-area.greyout"));
+
+- class="@(state.SearchInProgress ? "greyout" : "")">
+
+class="@(state.SearchInProgress ? "greyout" : "")">
+
+TAB: WebWindow
+
+- ItemGroup with ref for WebWindow
+
+<ItemGroup>
+    <PackageReference Include="WebWindow" Version="0.1.0-20200106.1" />
+  </ItemGroup>
+
+- Create and display window
+
+var window = new WebWindow("My app");
+            window.NavigateToString("<h1>Hello, world!</h1> This is nice.");
+            window.WaitForExit();
+
+- NavigateToLocalFile call
+
+window.NavigateToLocalFile("wwwroot/index.html");
+
+- Whole FlightFinder.Desktop.csproj
+
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WebWindow.Blazor" Version="0.1.0-20200106.1" />
+    <ProjectReference Include="..\FlightFinder.Client\FlightFinder.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Also publish static assets (CSS, fonts, etc.) from the Client project -->
+    <Content Include="..\FlightFinder.Client\wwwroot\**" Exclude="..\FlightFinder.Client\wwwroot\index.html">
+      <Link>wwwroot\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
+
+- <script src="framework://blazor.desktop.js"></script>
+
+<!-- Runs the app using native .NET Core, *not* WebAssembly -->
+    <script src="framework://blazor.desktop.js"></script>
+
+- ComponentsDesktop.Run call
+
+// Knows how to start up the Blazor app using native .NET Core,
+            // supplying DI services, configuration, etc.
+            ComponentsDesktop.Run<Startup>("FlightFinder", "wwwroot/index.html");
+
+- Get BaseUri from config
+
+// If there's an appsettings.json, get URI from there. Otherwise take it from browser.
+                var baseUri = services.GetService<IConfiguration>()?.GetValue<string>("BackendUri")
+                           ?? services.GetRequiredService<NavigationManager>().BaseUri;
+
+- appsettings.json contents
+
+{
+  "BackendUri": "https://localhost:44367/"
+}
+
+- Set OutputType to WinExe
+
+<OutputType>Exe</OutputType>
