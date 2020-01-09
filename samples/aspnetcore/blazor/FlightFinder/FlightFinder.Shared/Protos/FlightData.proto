@@ -6,6 +6,7 @@ option csharp_namespace = "FlightFinder.Shared";
 service FlightData {
     rpc Airports (google.protobuf.Empty) returns (AirportsReply);
     rpc Search (SearchCriteria) returns (SearchReply);
+    rpc AddShortlistItem (Itinerary) returns (google.protobuf.Empty);
 }
 
 message AirportsReply {

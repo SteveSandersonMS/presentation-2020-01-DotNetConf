@@ -10,6 +10,15 @@ namespace FlightFinder.Services
 {
     public class FlightDataService : FlightData.FlightDataBase
     {
+        public override Task<Empty> AddShortlistItem(Itinerary itinerary, ServerCallContext context)
+        {
+            // Could store in DB
+            Console.WriteLine($"[Server] Adding to shortlist: {itinerary.Price}, {itinerary.AirlineName}");
+
+            // Return nothing
+            return Task.FromResult(new Empty());
+        }
+
         public override Task<AirportsReply> Airports(Empty _, ServerCallContext context)
         {
             var reply = new AirportsReply();

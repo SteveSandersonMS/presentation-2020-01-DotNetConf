@@ -37,8 +37,10 @@ namespace FlightFinder.Client.Services
             NotifyStateChanged();
         }
 
-        public void AddToShortlist(Itinerary itinerary)
+        public async Task AddToShortlist(Itinerary itinerary)
         {
+            await flightDataClient.AddShortlistItemAsync(itinerary);
+
             shortlist.Add(itinerary);
             NotifyStateChanged();
         }
