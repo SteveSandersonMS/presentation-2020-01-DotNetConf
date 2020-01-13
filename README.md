@@ -16,11 +16,13 @@ The relevant branches are:
 - VS
   - Open FlightFinder.sln
   - Add snippets
-  - Font size 125% (based on size 10)
+  - Font size 115% (based on size 10)
   - Check FlightFinder.Server.csproj runs in browser
   - Hide 'solution items' folder
 - Cmder
   - In git repo dir
+  - `cd samples\aspnetcore\blazor\FlightFinder`
+  - `rm -rf FlightFinder.Desktop\`
   - `clear`
 - Close browser
 - Powerpoint
