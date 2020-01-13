@@ -1,26 +1,5 @@
 ﻿TAB: gRPC
 
-- services.AddSingleton call for FlightDataClient
-
-services.AddSingleton(services =>
-            {
-                // Create a gRPC-Web channel pointing to the backend server
-                var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler()));
-                var baseUri = services.GetRequiredService<NavigationManager>().BaseUri;
-                var channel = GrpcChannel.ForAddress(baseUri, new GrpcChannelOptions { HttpClient = httpClient });
-                
-                // Now we can instantiate gRPC clients for this channel
-                return new FlightData.FlightDataClient(channel);
-            });
-
-- @inject FlightDataClient
-
-@inject FlightData.FlightDataClient FlightDataClient
-
-- airports = ... call gRPC
-
-airports = (await FlightDataClient.AirportsAsync(new Empty())).Airports;
-
 - AppState ctor & field to receive FlightDataClient
 
 // Receive 'flightDataClient' instance from DI
