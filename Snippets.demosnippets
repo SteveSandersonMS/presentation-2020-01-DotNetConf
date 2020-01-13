@@ -147,25 +147,24 @@ public class SearchFlowTests
 [Fact]
         public void GreysOutSearchResultsWhileLoading()
         {
-
+            var app = host.AddComponent<Main>();
+            Func<bool> isGreyedOut = () => app.Find("#results-area").HasClass("greyout");
         }
 
 - Verify that before searching we're not loading
 
-var app = host.AddComponent<Main>();
-
-            // Assert: Before clicking search, we're not loading
-            Assert.Null(app.Find("#results-area.greyout"));
+// Assert: Before clicking search, we're not greyed out
+            Assert.False(isGreyedOut());
 
 - Verify that while searching we are loading
 
-// Act/Assert: After clicking search, we are loading
+// Act/Assert: After clicking search, we are greyed out
             app.Find(".search-submit").Click();
-            Assert.NotNull(app.Find("#results-area.greyout"));
+            Assert.True(isGreyedOut());
 
-            // Act/Assert: When the response arrives, we are no longer loading
+            // Act/Assert: When the response arrives, we are no longer greyed out
             host.WaitForNextRender(() => flightDataClient.SetResponse(new SearchReply()));
-            Assert.Null(app.Find("#results-area.greyout"));
+            Assert.False(isGreyedOut());
 
 - class="@(state.SearchInProgress ? "greyout" : "")">
 
