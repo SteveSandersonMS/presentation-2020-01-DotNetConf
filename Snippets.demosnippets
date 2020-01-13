@@ -107,17 +107,16 @@ public class SearchFlowTests
             host.AddService(new AppState(flightDataClient.Client));
         }
 
-        // TODO: Test that the server receives search criteria from the UI
-
-        // TODO: Test that the UI displays the search results
-    }
-
-- Beginning SendsSearchCriteria test
-
-[Fact]
+        [Fact]
         public void SendsSearchCriteria()
         {
-            // Arrange
+            // TODO: Test that the server receives search criteria from the UI
+        }
+    }
+
+- Beginning SendsSearchCriteria contents
+
+// Arrange
             var app = host.AddComponent<Main>();
             app.Find(".search-from-airport input").Change("JFK");
             app.Find(".search-to-airport input").Change("SYD");
@@ -126,52 +125,22 @@ public class SearchFlowTests
             app.Find(".search-ticket-class select").Change(TicketClass.First.ToString());
             Assert.Empty(flightDataClient.Calls<SearchCriteria>());
 
-            // TODO: Now click 'search'
-        }
+            // TODO: Now click 'search' and check request
 
-- Click search and assert
+- Click search
 
 // Act
             app.Find(".search-submit").Click();
             var call = flightDataClient.Calls<SearchCriteria>().Single();
             var searchCriteria = call.Request;
 
-            // Assert
+- Perform assertions
+// Assert
             Assert.Equal("JFK", searchCriteria.FromAirport);
             Assert.Equal("SYD", searchCriteria.ToAirport);
             Assert.Equal(new DateTime(2020, 1, 2), searchCriteria.OutboundDate);
             Assert.Equal(new DateTime(2020, 3, 8), searchCriteria.ReturnDate);
             Assert.Equal(TicketClass.First, searchCriteria.TicketClass);
-
-- Whole ShowsSearchResults test
-
-[Fact]
-        public void ShowsSearchResults()
-        {
-            // Arrange: Prepare a reply from server
-            var app = host.AddComponent<Main>();
-            var reply = new SearchReply();
-            reply.Itineraries.Add(TestItinerary.Create("My Airline", 123));
-            reply.Itineraries.Add(TestItinerary.Create("Another Airline", 456m));
-
-            // Act: Click 'search'; receive reply
-            app.Find(".search-submit").Click();
-            host.WaitForNextRender(() => flightDataClient.SetResponse(reply));
-
-            // Assert: Verify UI displays the data
-            Assert.Equal("2 results", app.Find("#results-area .title h2").InnerText);
-            Assert.Collection(app.FindAll("#results-area .search-result"),
-                item =>
-                {
-                    Assert.Equal("$123", item.QuerySelector(".price h3").InnerText);
-                    Assert.Equal("My Airline", item.QuerySelector(".airline span").InnerText);
-                },
-                item =>
-                {
-                    Assert.Equal("$456", item.QuerySelector(".price h3").InnerText);
-                    Assert.Equal("Another Airline", item.QuerySelector(".airline span").InnerText);
-                });
-        }
 
 - Empty GreysOutSearchResultsWhileLoading test
 
