@@ -288,3 +288,5 @@ __pycache__/
 *.xsd.cs
 
 **/wwwroot/lib/
+.DS_Store/
+**/.DS_Store
