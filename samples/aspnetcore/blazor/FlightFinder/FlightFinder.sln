@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\..\..\Snippets.demosnippets = ..\..\..\..\Snippets.demosnippets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightFinder.Desktop", "FlightFinder.Desktop\FlightFinder.Desktop.csproj", "{44EACD5F-85F1-41E0-97AC-6653D447AE81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,18 @@ Global
 		{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}.Release|x64.Build.0 = Release|Any CPU
 		{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}.Release|x86.ActiveCfg = Release|Any CPU
 		{533F5AEB-A21E-4686-B29A-8CC1CAD0CF9F}.Release|x86.Build.0 = Release|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Debug|x64.Build.0 = Debug|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Debug|x86.Build.0 = Debug|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Release|x64.ActiveCfg = Release|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Release|x64.Build.0 = Release|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Release|x86.ActiveCfg = Release|Any CPU
+		{44EACD5F-85F1-41E0-97AC-6653D447AE81}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
