@@ -28,6 +28,18 @@ The relevant branches are:
 - Close browser
 - Powerpoint
   - Slides ready
+- Mac
+  - On Windows, run vnc from second desktop to see mac screen
+  - Be logged in with only terminal visible
+  - Tab 1
+    - `cd FlightFinder.Server`
+    - `dotnet run`
+  - Tab 2
+    - `cd FlightFinder.Desktop`
+    - Check `dotnet run` works and you can do a search
+    - Check `./createMacAppBundle.sh` works & you can run app
+    - Delete app from desktop
+    - cmd+k to clear
 - Timer ready
 
 ## Flow
