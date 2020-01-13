@@ -6,6 +6,7 @@ The relevant branches are:
 
  * `pre-demo-state`
  * `grpc` (switch to this early in the demo, and do the rest of the demo here)
+ * `desktop` (switch to this near the end, to show Blazor app running in WebWindow)
  * `master` (finished post-demo state)
 
 ## Pre-demo prep
@@ -69,7 +70,8 @@ The relevant branches are:
   - [3] Attach-to-process from VS
   - [8] WebWindow
         - create new console app project
-        - paste in some csproj stuff
+        - make it display an HTML string
+        - `git checkout -f desktop`
         - see it runs except got wrong backend URL
         - fix via adding appsettings.json & Startup.cs code
         - see same thing running on macOS
