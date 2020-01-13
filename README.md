@@ -8,6 +8,25 @@ The relevant branches are:
  * `grpc` (switch to this early in the demo, and do the rest of the demo here)
  * `master` (finished post-demo state)
 
+## Pre-demo prep
+
+- 1920x1080 resolution
+- Auto-hide taskbar
+- Git in clean state on `pre-demo-state` branch
+- VS
+  - Open FlightFinder.sln
+  - Add snippets
+  - Font size 125% (based on size 10)
+  - Check FlightFinder.Server.csproj runs in browser
+  - Hide 'solution items' folder
+- Cmder
+  - In git repo dir
+  - `clear`
+- Close browser
+- Powerpoint
+  - Slides ready
+- Timer ready
+
 ## Flow
 
   - [4] Look at flightfinder app
