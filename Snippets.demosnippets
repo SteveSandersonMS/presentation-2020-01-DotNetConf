@@ -108,48 +108,16 @@ public class SearchFlowTests
         }
 
         [Fact]
-        public void SendsSearchCriteria()
+        public void GreysOutSearchResultsWhileLoading()
         {
-            // TODO: Test that the server receives search criteria from the UI
+            // TODO
         }
     }
 
-- Beginning SendsSearchCriteria contents
+- Initial GreysOutSearchResultsWhileLoading contents
 
-// Arrange
-            var app = host.AddComponent<Main>();
-            app.Find(".search-from-airport input").Change("JFK");
-            app.Find(".search-to-airport input").Change("SYD");
-            app.Find(".search-outbound-date input").Change("2020-01-02");
-            app.Find(".search-return-date input").Change("2020-03-08");
-            app.Find(".search-ticket-class select").Change(TicketClass.First.ToString());
-            Assert.Empty(flightDataClient.Calls<SearchCriteria>());
-
-            // TODO: Now click 'search' and check request
-
-- Click search
-
-// Act
-            app.Find(".search-submit").Click();
-            var call = flightDataClient.Calls<SearchCriteria>().Single();
-            var searchCriteria = call.Request;
-
-- Perform assertions
-// Assert
-            Assert.Equal("JFK", searchCriteria.FromAirport);
-            Assert.Equal("SYD", searchCriteria.ToAirport);
-            Assert.Equal(new DateTime(2020, 1, 2), searchCriteria.OutboundDate);
-            Assert.Equal(new DateTime(2020, 3, 8), searchCriteria.ReturnDate);
-            Assert.Equal(TicketClass.First, searchCriteria.TicketClass);
-
-- Empty GreysOutSearchResultsWhileLoading test
-
-[Fact]
-        public void GreysOutSearchResultsWhileLoading()
-        {
-            var app = host.AddComponent<Main>();
+var app = host.AddComponent<Main>();
             Func<bool> isGreyedOut = () => app.Find("#results-area").HasClass("greyout");
-        }
 
 - Verify that before searching we're not loading
 
@@ -166,9 +134,9 @@ public class SearchFlowTests
             host.WaitForNextRender(() => flightDataClient.SetResponse(new SearchReply()));
             Assert.False(isGreyedOut());
 
-- class="@(state.SearchInProgress ? "greyout" : "")">
+- class="@(state.SearchInProgress ? "greyout" : "")"
 
-class="@(state.SearchInProgress ? "greyout" : "")">
+class="@(state.SearchInProgress ? "greyout" : "")"
 
 TAB: WebWindow
 
