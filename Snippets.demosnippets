@@ -1,18 +1,5 @@
 ﻿TAB: gRPC
 
-- AppState ctor & field to receive FlightDataClient
-
-// Receive 'flightDataClient' instance from DI
-        private readonly FlightData.FlightDataClient flightDataClient;
-        public AppState(FlightData.FlightDataClient flightDataClient)
-        {
-            this.flightDataClient = flightDataClient;
-        }
-
-- SearchResults = ... call gRPC
-
-SearchResults = (await flightDataClient.SearchAsync(criteria)).Itineraries;
-
 - .proto: rpc AddShortlistItem ...
 
 rpc AddShortlistItem (Itinerary) returns (google.protobuf.Empty);
